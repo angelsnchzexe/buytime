@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user_config.dart';
 
 class UserConfigService {
   static const String _keySalario = 'salario';
@@ -7,22 +8,16 @@ class UserConfigService {
   static const String _keyMoneda = 'moneda';
   static const String _keyPorcentajeAhorro = 'porcentajeAhorro';
 
-  static Future<void> saveConfig(
-    double salario,
-    double horas,
-    String frecuencia,
-    String moneda,
-    double porcentajeAhorro,
-  ) async {
+  static Future<void> saveConfig(UserConfig config) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_keySalario, salario);
-    await prefs.setDouble(_keyHoras, horas);
-    await prefs.setString(_keyFrecuencia, frecuencia);
-    await prefs.setString(_keyMoneda, moneda);
-    await prefs.setDouble(_keyPorcentajeAhorro, porcentajeAhorro);
+    await prefs.setDouble(_keySalario, config.salario);
+    await prefs.setDouble(_keyHoras, config.horas);
+    await prefs.setString(_keyFrecuencia, config.frecuencia);
+    await prefs.setString(_keyMoneda, config.moneda);
+    await prefs.setDouble(_keyPorcentajeAhorro, config.porcentajeAhorro);
   }
 
-  static Future<Map<String, dynamic>> loadConfig() async {
+  static Future<UserConfig> loadConfig() async {
     final prefs = await SharedPreferences.getInstance();
 
     final salario = prefs.getDouble(_keySalario) ?? 1200.0;
@@ -31,12 +26,12 @@ class UserConfigService {
     final moneda = prefs.getString(_keyMoneda) ?? 'EUR';
     final porcentajeAhorro = prefs.getDouble(_keyPorcentajeAhorro) ?? 0.1;
 
-    return {
-      'salario': salario,
-      'horas': horas,
-      'frecuencia': frecuencia,
-      'moneda': moneda,
-      'porcentajeAhorro': porcentajeAhorro,
-    };
+    return UserConfig(
+      salario: salario,
+      horas: horas,
+      frecuencia: frecuencia,
+      moneda: moneda,
+      porcentajeAhorro: porcentajeAhorro,
+    );
   }
 }

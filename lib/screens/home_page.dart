@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../services/user_config_service.dart';
 import '../services/gasto_service.dart';
+import '../models/user_config.dart';
 import '../widgets/resultado_card.dart';
 import '../widgets/input_section.dart';
 import '../widgets/title_bar.dart';
@@ -70,16 +71,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Future<void> _cargarConfiguracionUsuario() async {
-    final config = await UserConfigService.loadConfig();
+    final UserConfig config = await UserConfigService.loadConfig();
     final gastos = await GastoService.obtenerTodos();
     final sumaGastos = gastos.fold<double>(0, (suma, gasto) => suma + gasto.cantidad);
 
     setState(() {
-      salario = config['salario'];
-      horasPorSemana = config['horas'];
-      frecuencia = config['frecuencia'];
-      moneda = config['moneda'];
-      porcentajeAhorro = config['porcentajeAhorro'] ?? 0.1;
+      salario = config.salario;
+      horasPorSemana = config.horas;
+      frecuencia = config.frecuencia;
+      moneda = config.moneda;
+      porcentajeAhorro = config.porcentajeAhorro;
 
       salarioDisponible = salario * (1 - porcentajeAhorro);
       gastoActual = sumaGastos;

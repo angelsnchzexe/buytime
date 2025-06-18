@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../widgets/input_field.dart';
 import '../widgets/dropdown_field.dart';
 import '../services/user_config_service.dart';
+import '../models/user_config.dart';
 import '../widgets/title_bar.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/slider_field.dart';
@@ -68,11 +69,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     await Future.delayed(const Duration(milliseconds: 150));
 
     setState(() {
-      salarioController.text = _formatearNumero(config['salario']);
-      horasController.text = _formatearNumero(config['horas']);
-      frecuenciaSalario = config['frecuencia'];
-      monedaSeleccionada = config['moneda'] ?? _detectarMonedaPorPais(locale.countryCode);
-      porcentajeAhorro = config['porcentajeAhorro'] ?? 0.1;
+      salarioController.text = _formatearNumero(config.salario);
+      horasController.text = _formatearNumero(config.horas);
+      frecuenciaSalario = config.frecuencia;
+      monedaSeleccionada = config.moneda.isNotEmpty
+          ? config.moneda
+          : _detectarMonedaPorPais(locale.countryCode);
+      porcentajeAhorro = config.porcentajeAhorro;
       porcentajeAhorroActual = (porcentajeAhorro * 100).toStringAsFixed(0);
 
       salarioActual = salarioController.text;
@@ -123,11 +126,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     }
 
     UserConfigService.saveConfig(
-      salario,
-      horas,
-      frecuenciaSalario,
-      monedaSeleccionada,
-      porcentajeAhorro,
+      UserConfig(
+        salario: salario,
+        horas: horas,
+        frecuencia: frecuenciaSalario,
+        moneda: monedaSeleccionada,
+        porcentajeAhorro: porcentajeAhorro,
+      ),
     );
 
     setState(() {
