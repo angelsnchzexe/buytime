@@ -1,0 +1,54 @@
+name: buytime
+description: Una app para saber cuánto tiempo de tu vida cuesta una compra.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
+  shared_preferences: ^2.2.2
+  audioplayers: ^5.2.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.6
+  
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+  min_sdk_android: 21
+
+flutter:
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
+        
+  uses-material-design: true
+
+  assets:
+    - assets/sounds/
+    - assets/images/
+    - assets/images/icon-remove-white.png
+    - assets/images/icon-remove-black.png
+
+
+  generate: true
+
+l10n:
+  arb-dir: lib/l10n
+  template-arb-file: app_en.arb
+  output-localization-file: app_localizations.dart
